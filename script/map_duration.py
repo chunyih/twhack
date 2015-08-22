@@ -10,6 +10,10 @@ duration = duration_query.DurationQuery()
 def root():
     return send_from_directory('..', 'index.html')
 
+@app.route('/')
+def root():
+    return send_from_directory('..', 'index.html')
+
 @app.route('/script.js')
 def js():
     return send_from_directory('..', 'script.js')
