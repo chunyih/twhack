@@ -2,11 +2,9 @@ from flask import Flask, request
 import urllib2
 app = Flask(__name__)
 
-
 @app.route('/map/')
 def get_duration():
-    return ok
-    #return get_location(get_location(request.args.get(ref)))
+    return get_location(get_html(request.args.get('ref')))
 
 craigslist_url_head = 'http://sfbay.craigslist.org'
 def get_html(ref):
@@ -20,6 +18,15 @@ def get_location(doc):
     """
     return tuple: (longtitude, latitude) on given craiglist 
     """
+    longitude = get_string(doc, 'data-longitude', skip=2, length=6)
+    latitude = get_string(doc, 'data-latitude', skip=2, length=6)
+    return longitude + ", " + latitude
+
+def get_string(doc, match, skip=0, length=1):
+    index = doc.index(match)
+    start_ind = index + len(match) + skip;
+    return doc[start_ind:start_ind+length]
 
 if __name__ == "__main__":
+    app.debug = True
     app.run()
