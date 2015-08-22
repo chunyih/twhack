@@ -7,7 +7,7 @@ $('.filerBtn').on('click', function(e) {
 
 $.ajax({
     method: "GET",
-    url: "http://localhost:5000/map/?ref=/nby/apa/5168155500.html"
+    url: "http://127.0.0.1:5000/map/?ref=/nby/apa/5168155500.html"
 })
     .done(function( msg ) {
 
