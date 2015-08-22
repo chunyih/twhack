@@ -10,6 +10,13 @@ $.ajax({
     url: "http://localhost:5000/map/?ref=/nby/apa/5168155500.html"
 })
     .done(function( msg ) {
+
+//        $('.content p.row a').each(function( index ){
+//            console.log($(this).attr('href'));
+//        })
+
+
+
         console.log(msg);
         alert("done!!!");
     })
