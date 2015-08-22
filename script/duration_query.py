@@ -13,7 +13,7 @@ class DurationQuery(object):
         self._destination = 'Palo Alto, CA'
         self._departure_time = None
 
-    def get_duration(origin):
+    def get_duration(self, origin):
         if not self._departure_time:
             departure_time = datetime.now()
         out = self._gmaps.direction(
@@ -26,7 +26,7 @@ class DurationQuery(object):
         duration_in_mins = float(duration) / 60.0
         return duration_in_mins
 
-    def get_duration_from_lat_lng(lat=0, lng=0):
+    def get_duration_from_lat_lng(self, lat=0, lng=0):
         origin = {'lat': lat, 'lng': lng}
         return self.get_duration(origin)
 
