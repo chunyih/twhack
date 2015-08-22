@@ -16,7 +16,7 @@ class DurationQuery(object):
     def get_duration(self, origin):
         if not self._departure_time:
             departure_time = datetime.now()
-        out = self._gmaps.direction(
+        out = self._gmaps.directions(
             origin,
             self._destination,
             mode=self._mode,

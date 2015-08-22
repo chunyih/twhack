@@ -10,10 +10,6 @@ obj_duration = duration_query.DurationQuery()
 def root():
     return send_from_directory('..', 'index.html')
 
-@app.route('/')
-def root():
-    return send_from_directory('..', 'index.html')
-
 @app.route('/script.js')
 def js():
     return send_from_directory('..', 'script.js')
@@ -22,7 +18,7 @@ def js():
 def get_duration():
     lng, lat = get_location(get_html(request.args.get('ref')))
     time = obj_duration.get_duration_from_lat_lng(lat, lng)
-    return time <= 60
+    return str(time <= 60)
 
 craigslist_url_head = 'http://sfbay.craigslist.org'
 def get_html(ref):
