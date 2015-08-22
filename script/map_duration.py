@@ -4,7 +4,7 @@ import urllib2
 import duration_query
 
 app = Flask(__name__, static_url_path='')
-duration = duration_query.DurationQuery()
+obj_duration = duration_query.DurationQuery()
 
 @app.route('/')
 def root():
@@ -20,7 +20,9 @@ def js():
 
 @app.route('/map/')
 def get_duration():
-    return get_location(get_html(request.args.get('ref')))
+    lng, lat = get_location(get_html(request.args.get('ref')))
+    time = obj_duration.get_duration_from_lat_lng(lat, lng)
+    return time <= 60
 
 craigslist_url_head = 'http://sfbay.craigslist.org'
 def get_html(ref):
@@ -36,7 +38,7 @@ def get_location(doc):
     """
     longitude = float(get_string(doc, 'data-longitude', skip=2, length=11))
     latitude = float(get_string(doc, 'data-latitude', skip=2, length=9))
-    return "{0}".format([longitude, latitude])
+    return [longitude, latitude]
 
 def get_string(doc, match, skip=0, length=1):
     index = doc.index(match)
