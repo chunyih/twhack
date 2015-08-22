@@ -2,9 +2,9 @@ from flask import Flask, request, send_from_directory
 import urllib2
 app = Flask(__name__, static_url_path='')
 
-@app.route('/')
+@app.route('/file/<path:path>')
 def get_index():
-  return send_from_directory('..', 'index.html')
+  return send_from_directory('..', path)
 
 @app.route('/map/')
 def get_duration():
