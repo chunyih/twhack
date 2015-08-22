@@ -1,10 +1,18 @@
 from flask import Flask, request, send_from_directory
 import urllib2
-
+import json
 import duration_query
 
 app = Flask(__name__, static_url_path='')
 obj_duration = duration_query.DurationQuery()
+
+json_file = ''
+with open(json_file) as fin:
+    json_data = json.load(fin.read())
+
+@app.route('/')
+def root():
+    return send_from_directory('..', 'index.html')
 
 @app.route('/')
 def root():
@@ -16,9 +24,15 @@ def js():
 
 @app.route('/map/')
 def get_duration():
-    lng, lat = get_location(get_html(request.args.get('ref')))
+    lng, lat = get_location_from_json(request.args.get('ref'))
+    # lng, lat = get_location(get_html(request.args.get('ref')))
     time = obj_duration.get_duration_from_lat_lng(lat, lng)
-    return str(time <= 60)
+    return time <= 60
+
+def get_location_from_json(ref):
+    for ele in json_data[0]:
+        if ele['PostingURL'].index(ref) != -1:
+            return [ele['Longitude'], ele['Latitude']]
 
 craigslist_url_head = 'http://sfbay.craigslist.org'
 def get_html(ref):
