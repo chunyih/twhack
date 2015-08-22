@@ -1,6 +1,10 @@
-from flask import Flask, request
+from flask import Flask, request, send_from_directory
 import urllib2
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='')
+
+@app.route('/')
+def get_index():
+  return send_from_directory('..', 'index.html')
 
 @app.route('/map/')
 def get_duration():
@@ -18,9 +22,9 @@ def get_location(doc):
     """
     return tuple: (longtitude, latitude) on given craiglist 
     """
-    longitude = get_string(doc, 'data-longitude', skip=2, length=6)
-    latitude = get_string(doc, 'data-latitude', skip=2, length=6)
-    return longitude + ", " + latitude
+    longitude = float(get_string(doc, 'data-longitude', skip=2, length=11))
+    latitude = float(get_string(doc, 'data-latitude', skip=2, length=9))
+    return "{0}".format([longitude, latitude])
 
 def get_string(doc, match, skip=0, length=1):
     index = doc.index(match)
