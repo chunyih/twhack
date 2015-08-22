@@ -1,6 +1,6 @@
 from flask import Flask, request, send_from_directory
 import urllib2
-app = Flask(__name__, , static_url_path='')
+app = Flask(__name__, static_url_path='')
 
 @app.route('/')
 def get_index():
