@@ -9,7 +9,7 @@ VALID_MODES = ('transit', 'driving', 'bicylcing', 'walking')
 class DurationQuery(object):
     def __init__(self):
         self._gmaps = googlemaps.Client(key=API_KEY)
-        self._mode = 'transit'
+        self._mode = 'driving'
         self._destination = 'Palo Alto, CA'
         self._departure_time = None
 

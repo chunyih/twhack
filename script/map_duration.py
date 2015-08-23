@@ -6,13 +6,9 @@ import duration_query
 app = Flask(__name__, static_url_path='')
 obj_duration = duration_query.DurationQuery()
 
-json_file = ''
-with open(json_file) as fin:
-    json_data = json.load(fin.read())
-
-@app.route('/')
-def root():
-    return send_from_directory('..', 'index.html')
+json_file = '../data.json'
+with open(json_file, 'r') as fin:
+    json_data = json.loads(fin.read())
 
 @app.route('/')
 def root():
@@ -24,15 +20,25 @@ def js():
 
 @app.route('/map/')
 def get_duration():
-    lng, lat = get_location_from_json(request.args.get('ref'))
+    location = get_location_from_json(request.args.get('ref'))
+    if location:
+        lng, lat = location
+    else:
+        return 'Error'
     # lng, lat = get_location(get_html(request.args.get('ref')))
     time = obj_duration.get_duration_from_lat_lng(lat, lng)
-    return time <= 60
+    # temp = get_location_from_json(request.args.get('ref'))
+
+    maxTime = float(request.args.get('maxTime')) if request.args.get('maxTime') != '' else 60
+
+    return str(time <= maxTime)
 
 def get_location_from_json(ref):
+    tmp = ref.split('/')[-1][:-5]
     for ele in json_data[0]:
-        if ele['PostingURL'].index(ref) != -1:
+        if ele['PostingID'].find(tmp) != -1:
             return [ele['Longitude'], ele['Latitude']]
+    return None
 
 craigslist_url_head = 'http://sfbay.craigslist.org'
 def get_html(ref):
